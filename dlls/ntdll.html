@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ntdll.dll - WhatIsWindows</title>
+  <meta name="description" content="Technical documentation for ntdll.dll - The Native API DLL that serves as the primary interface to the Windows NT kernel">
+  
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/navigation.css">
+  <link rel="stylesheet" href="../css/components.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">`n  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      
+      <a href="../index.html" class="logo">
+        <i class="fa-brands fa-windows"></i>
+        <span>WhatIsWindows</span>
+      </a>
+      
+      <div class="search-trigger">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search documentation...</span>
+        <kbd>Ctrl+K</kbd>
+      </div>
+      
+      <nav class="header-nav">
+        <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank" aria-label="GitHub Repository">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </nav>
+    </header>
+
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Architecture</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../architecture/overview.html" class="nav-link">Overview</a>
+            </li>
+            <li class="nav-item">
+              <a href="../architecture/memory-model.html" class="nav-link">Memory Model</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>DLLs</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="ntdll.html" class="nav-link">ntdll.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="kernel32.html" class="nav-link">kernel32.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="user32.html" class="nav-link">user32.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="advapi32.html" class="nav-link">advapi32.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="gdi32.html" class="nav-link">gdi32.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="msvcrt.html" class="nav-link">msvcrt.dll</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Functions</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../functions/memory-management.html" class="nav-link">Memory Management</a>
+            </li>
+            <li class="nav-item">
+              <a href="../functions/process-threads.html" class="nav-link">Process & Threads</a>
+            </li>
+            <li class="nav-item">
+              <a href="../functions/file-io.html" class="nav-link">File I/O</a>
+            </li>
+            <li class="nav-item">
+              <a href="../functions/registry-api.html" class="nav-link">Registry API</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Subsystems</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../subsystems/executive.html" class="nav-link">Executive</a>
+            </li>
+            <li class="nav-item">
+              <a href="../subsystems/kernel.html" class="nav-link">Kernel</a>
+            </li>
+            <li class="nav-item">
+              <a href="../subsystems/hal.html" class="nav-link">HAL</a>
+            </li>
+            <li class="nav-item">
+              <a href="../subsystems/win32k.html" class="nav-link">win32k.sys</a>
+            </li>
+            <li class="nav-item">
+              <a href="../subsystems/lsa.html" class="nav-link">LSA</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Drivers</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../drivers/overview.html" class="nav-link">Overview</a>
+            </li>
+            <li class="nav-item">
+              <a href="../drivers/wdm.html" class="nav-link">WDM</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Registry</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../registry/structure.html" class="nav-link">Structure</a>
+            </li>
+            <li class="nav-item">
+              <a href="../registry/hives.html" class="nav-link">Hives</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <nav class="breadcrumbs">
+        <a href="../index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="index.html">DLLs</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>ntdll.dll</span>
+      </nav>
+
+      <div class="section-header">
+        <h1>ntdll.dll</h1>
+        <p class="section-subtitle">Native API Layer - The lowest-level user-mode interface to the Windows NT kernel</p>
+      </div>
+
+      <nav class="table-of-contents">
+        <h3>Contents</h3>
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#key-exports">Key Exports</a></li>
+          <li><a href="#ntcreatefile">NtCreateFile</a></li>
+          <li><a href="#ntallocatevirtualmemory">NtAllocateVirtualMemory</a></li>
+          <li><a href="#related">Related Components</a></li>
+        </ul>
+      </nav>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>ntdll.dll (NT Layer DLL) is the most fundamental Dynamic Link Library in Windows NT-based operating systems. It serves as the primary bridge between user-mode applications and the Windows NT kernel (ntoskrnl.exe). Unlike higher-level DLLs such as kernel32.dll or user32.dll, ntdll.dll exports the Native API - a collection of functions that directly invoke kernel-mode system services via the syscall instruction.</p>
+        
+        <p>Every user-mode process in Windows automatically loads ntdll.dll during initialization. The DLL is loaded by the Process Environment Block (PEB) setup routine before the process entry point is called, making it available to all code executing in the process context.</p>
+
+        <div class="callout">
+          <div class="callout-header">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Key Point</span>
+          </div>
+          <p>ntdll.dll is undocumented by Microsoft. The Native API functions are subject to change between Windows versions without notice. Production software should use the documented Win32 API instead.</p>
+        </div>
+
+        <h3>Core Responsibilities</h3>
+        <ul>
+          <li>System call stubs for kernel-mode transitions</li>
+          <li>Exception dispatch and handling infrastructure</li>
+          <li>Loader functions for DLL initialization and management</li>
+          <li>User-mode APC (Asynchronous Procedure Call) queuing</li>
+          <li>Debug event reporting and handling</li>
+          <li>Hardware exception filtering</li>
+          <li>Heap management internals</li>
+          <li>String manipulation routines (Rtl* functions)</li>
+        </ul>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture</h2>
+        <p>ntdll.dll operates at the boundary between user-mode (Ring 3) and kernel-mode (Ring 0). When a Native API function is called, it prepares the system call number and arguments, then executes the syscall instruction to transition to kernel mode.</p>
+
+        <div class="ascii-art">
++---------------------------------------------------+
+|                  User Mode (Ring 3)               |
+|                                                   |
+|  +-------------+    +--------------------------+  |
+|  |  Your Code  |    |   kernel32.dll / Win32   |  |
+|  +-------------+    +--------------------------+  |
+|           |                      |                |
+|           +----------------------+                |
+|                              |                    |
+|                    +-------------------+          |
+|                    |    ntdll.dll      |          |
+|                    |  (Native API)     |          |
+|                    +-------------------+          |
+|                              |                    |
+|                     SYSCALL / INT 2E              |
++---------------------------------------------------+
+|                              |                    |
+|                  Kernel Mode (Ring 0)             |
+|                              |                    |
+|                    +-------------------+          |
+|                    |  ntoskrnl.exe     |          |
+|                    |   (NT Kernel)     |          |
+|                    +-------------------+          |
++---------------------------------------------------+
+        </div>
+
+        <h3>Calling Convention</h3>
+        <p>Native API functions use the __stdcall calling convention on x86 and the Microsoft x64 calling convention on x64. Parameters are passed in registers for x64:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Register</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>RCX</td>
+              <td>First integer/pointer argument</td>
+            </tr>
+            <tr>
+              <td>RDX</td>
+              <td>Second integer/pointer argument</td>
+            </tr>
+            <tr>
+              <td>R8</td>
+              <td>Third integer/pointer argument</td>
+            </tr>
+            <tr>
+              <td>R9</td>
+              <td>Fourth integer/pointer argument</td>
+            </tr>
+            <tr>
+              <td>Stack</td>
+              <td>Fifth and subsequent arguments</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>System Call Mechanism</h3>
+        <p>On modern Windows (Vista and later), system calls use the SYSCALL instruction. The system call number is loaded into the EAX register before execution:</p>
+
+        <div class="code-block-wrapper">
+          <div class="code-block-header">
+            <span class="code-block-language">assembly</span>
+            <button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code class="language-asm">; Example: NtCreateFile system call stub
+mov r10, rcx          ; First parameter
+mov eax, 55h          ; Syscall number - Win10 21H2, varies by build
+syscall               ; Transition to kernel mode
+ret                   ; Return to caller</code></pre>
+        </div>
+
+        <div class="callout callout-warning">
+          <div class="callout-header">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Warning</span>
+          </div>
+          <p>System call numbers change between Windows versions. Hardcoding these values will cause compatibility issues. Always use the exported function names instead.</p>
+        </div>
+      </section>
+
+      <section id="key-exports">
+        <h2>Key Exports</h2>
+        <p>ntdll.dll exports over 2,000 functions. These can be categorized into several groups:</p>
+
+        <h3>Nt* Functions - System Calls</h3>
+        <p>Functions prefixed with Nt (or Zw) are system call stubs that transition to kernel mode:</p>
+        <ul>
+          <li>NtCreateFile - Create or open a file</li>
+          <li>NtAllocateVirtualMemory - Allocate virtual memory</li>
+          <li>NtCreateProcess - Create a new process</li>
+          <li>NtCreateThread - Create a new thread</li>
+          <li>NtReadVirtualMemory - Read process memory</li>
+          <li>NtWriteVirtualMemory - Write process memory</li>
+          <li>NtQuerySystemInformation - Query system information</li>
+        </ul>
+
+        <h3>Rtl* Functions - Runtime Library</h3>
+        <p>Runtime library functions that operate entirely in user mode:</p>
+        <ul>
+          <li>RtlAllocateHeap - Allocate memory from heap</li>
+          <li>RtlCopyMemory - Memory copy operation</li>
+          <li>RtlEnterCriticalSection - Acquire critical section</li>
+          <li>RtlInitializeCriticalSection - Initialize critical section</li>
+          <li>RtlUnicodeStringToAnsiString - String conversion</li>
+        </ul>
+
+        <h3>Ldr* Functions - Loader</h3>
+        <p>DLL loader functions for module management:</p>
+        <ul>
+          <li>LdrLoadDll - Load a DLL into process</li>
+          <li>LdrGetProcedureAddress - Get function address</li>
+          <li>LdrUnloadDll - Unload a DLL</li>
+        </ul>
+      </section>
+
+      <section id="ntcreatefile">
+        <h2>NtCreateFile</h2>
+        <p>NtCreateFile creates or opens a file, directory, device, or other filesystem object. It is one of the most complex and frequently used Native API functions.</p>
+
+        <div class="function-doc">
+          <h3>Function Signature</h3>
+          <div class="function-signature">
+            <pre><code class="language-c">NTSTATUS NtCreateFile(
+  PHANDLE            FileHandle,
+  ACCESS_MASK        DesiredAccess,
+  POBJECT_ATTRIBUTES ObjectAttributes,
+  PIO_STATUS_BLOCK   IoStatusBlock,
+  PLARGE_INTEGER     AllocationSize,
+  ULONG              FileAttributes,
+  ULONG              ShareAccess,
+  ULONG              CreateDisposition,
+  ULONG              CreateOptions,
+  PVOID              EaBuffer,
+  ULONG              EaLength
+);</code></pre>
+          </div>
+
+          <h3>Parameters</h3>
+          <table class="param-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>FileHandle</td>
+                <td>PHANDLE</td>
+                <td>Pointer to HANDLE that receives the file object handle</td>
+              </tr>
+              <tr>
+                <td>DesiredAccess</td>
+                <td>ACCESS_MASK</td>
+                <td>Access flags (FILE_READ_DATA, FILE_WRITE_DATA, etc.)</td>
+              </tr>
+              <tr>
+                <td>ObjectAttributes</td>
+                <td>POBJECT_ATTRIBUTES</td>
+                <td>Pointer to OBJECT_ATTRIBUTES structure</td>
+              </tr>
+              <tr>
+                <td>IoStatusBlock</td>
+                <td>PIO_STATUS_BLOCK</td>
+                <td>Pointer to IO_STATUS_BLOCK for operation result</td>
+              </tr>
+              <tr>
+                <td>AllocationSize</td>
+                <td>PLARGE_INTEGER</td>
+                <td>Optional initial file size in bytes</td>
+              </tr>
+              <tr>
+                <td>FileAttributes</td>
+                <td>ULONG</td>
+                <td>File attributes (FILE_ATTRIBUTE_NORMAL, etc.)</td>
+              </tr>
+              <tr>
+                <td>ShareAccess</td>
+                <td>ULONG</td>
+                <td>Sharing mode (FILE_SHARE_READ, FILE_SHARE_WRITE)</td>
+              </tr>
+              <tr>
+                <td>CreateDisposition</td>
+                <td>ULONG</td>
+                <td>Action if file exists/doesn't exist (FILE_OPEN, FILE_CREATE)</td>
+              </tr>
+              <tr>
+                <td>CreateOptions</td>
+                <td>ULONG</td>
+                <td>Options (FILE_SYNCHRONOUS_IO_NONALERT, etc.)</td>
+              </tr>
+              <tr>
+                <td>EaBuffer</td>
+                <td>PVOID</td>
+                <td>Optional extended attributes buffer</td>
+              </tr>
+              <tr>
+                <td>EaLength</td>
+                <td>ULONG</td>
+                <td>Length of extended attributes buffer</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Return Values</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Status Code</th>
+                <th>Value</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>STATUS_SUCCESS</td>
+                <td>0x00000000</td>
+                <td>Operation completed successfully</td>
+              </tr>
+              <tr>
+                <td>STATUS_OBJECT_NAME_NOT_FOUND</td>
+                <td>0xC0000034</td>
+                <td>Specified file path does not exist</td>
+              </tr>
+              <tr>
+                <td>STATUS_ACCESS_DENIED</td>
+                <td>0xC0000022</td>
+                <td>Insufficient permissions</td>
+              </tr>
+              <tr>
+                <td>STATUS_SHARING_VIOLATION</td>
+                <td>0xC0000043</td>
+                <td>File is already opened with incompatible sharing</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Example 1: Opening a File for Reading</h3>
+        <div class="code-block-wrapper">
+          <div class="code-block-header">
+            <span class="code-block-language">c</span>
+            <button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code class="language-c">#include <Windows.h>
+#include <winternl.h>
+
+typedef NTSTATUS (NTAPI *NtCreateFile_t)(
+  PHANDLE, ACCESS_MASK, POBJECT_ATTRIBUTES,
+  PIO_STATUS_BLOCK, PLARGE_INTEGER, ULONG,
+  ULONG, ULONG, ULONG, PVOID, ULONG
+);
+
+int main() {
+  HMODULE hNtdll = GetModuleHandleA("ntdll.dll");
+  NtCreateFile_t NtCreateFile = (NtCreateFile_t)
+    GetProcAddress(hNtdll, "NtCreateFile");
+  
+  UNICODE_STRING fileName;
+  RtlInitUnicodeString(&fileName, L"\\??\\C:\\test.txt");
+  
+  OBJECT_ATTRIBUTES objAttr;
+  InitializeObjectAttributes(&objAttr, &fileName,
+    OBJ_CASE_INSENSITIVE, NULL, NULL);
+  
+  HANDLE hFile;
+  IO_STATUS_BLOCK iosb;
+  
+  NTSTATUS status = NtCreateFile(
+    &hFile,
+    FILE_READ_DATA | SYNCHRONIZE,
+    &objAttr,
+    &iosb,
+    NULL,
+    FILE_ATTRIBUTE_NORMAL,
+    FILE_SHARE_READ,
+    FILE_OPEN,
+    FILE_NON_DIRECTORY_FILE | FILE_SYNCHRONOUS_IO_NONALERT,
+    NULL,
+    0
+  );
+  
+  if (NT_SUCCESS(status)) {
+    NtClose(hFile);
+  }
+  
+  return status;
+}</code></pre>
+        </div>
+
+        <div class="callout callout-info">
+          <i class="fa-solid fa-circle-info"></i>
+          <div>
+            <strong>Note:</strong> NtClose requires a separate GetProcAddress call or typedef declaration. Add:
+            <code style="margin-top: var(--space-sm); display: inline-block;">typedef NTSTATUS (NTAPI *NtClose_t)(HANDLE);</code>
+          </div>
+        </div>
+
+        <h3>Example 2: Creating a New File</h3>
+        <div class="code-block-wrapper">
+          <div class="code-block-header">
+            <span class="code-block-language">c</span>
+            <button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code class="language-c">NTSTATUS CreateNewFile(PCWSTR filePath) {
+  UNICODE_STRING fileName;
+  RtlInitUnicodeString(&fileName, filePath);
+  
+  OBJECT_ATTRIBUTES objAttr;
+  InitializeObjectAttributes(&objAttr, &fileName,
+    OBJ_CASE_INSENSITIVE, NULL, NULL);
+  
+  HANDLE hFile;
+  IO_STATUS_BLOCK iosb;
+  LARGE_INTEGER allocSize;
+  allocSize.QuadPart = 4096;
+  
+  NTSTATUS status = NtCreateFile(
+    &hFile,
+    FILE_WRITE_DATA | FILE_WRITE_ATTRIBUTES | SYNCHRONIZE,
+    &objAttr,
+    &iosb,
+    &allocSize,
+    FILE_ATTRIBUTE_NORMAL,
+    0,
+    FILE_CREATE,
+    FILE_NON_DIRECTORY_FILE,
+    NULL,
+    0
+  );
+  
+  if (status == STATUS_SUCCESS) {
+    if (iosb.Information == FILE_CREATED) {
+      wprintf(L"File created successfully\n");
+    }
+    NtClose(hFile);
+  }
+  
+  return status;
+}</code></pre>
+        </div>
+
+        <h3>Inter-Component Relationships</h3>
+        <ul>
+          <li>kernel32.dll CreateFileW calls NtCreateFile internally</li>
+          <li>I/O Manager in ntoskrnl.exe processes the request</li>
+          <li>File system drivers (NTFS, FAT32) handle the actual operation</li>
+          <li>Cache Manager may cache file data in memory</li>
+        </ul>
+      </section>
+
+      <section id="ntallocatevirtualmemory">
+        <h2>NtAllocateVirtualMemory</h2>
+        <p>NtAllocateVirtualMemory allocates virtual memory within the address space of a process. This is the fundamental memory allocation primitive used by all higher-level allocation functions.</p>
+
+        <div class="function-doc">
+          <h3>Function Signature</h3>
+          <div class="function-signature">
+            <pre><code class="language-c">NTSTATUS NtAllocateVirtualMemory(
+  HANDLE    ProcessHandle,
+  PVOID     *BaseAddress,
+  ULONG_PTR ZeroBits,
+  PSIZE_T   RegionSize,
+  ULONG     AllocationType,
+  ULONG     Protect
+);</code></pre>
+          </div>
+
+          <h3>Parameters</h3>
+          <table class="param-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ProcessHandle</td>
+                <td>HANDLE</td>
+                <td>Handle to target process (must have PROCESS_VM_OPERATION)</td>
+              </tr>
+              <tr>
+                <td>BaseAddress</td>
+                <td>PVOID*</td>
+                <td>Pointer to base address (NULL for system-selected)</td>
+              </tr>
+              <tr>
+                <td>ZeroBits</td>
+                <td>ULONG_PTR</td>
+                <td>Number of high-order address bits that must be zero</td>
+              </tr>
+              <tr>
+                <td>RegionSize</td>
+                <td>PSIZE_T</td>
+                <td>Pointer to size in bytes (rounded to page boundary)</td>
+              </tr>
+              <tr>
+                <td>AllocationType</td>
+                <td>ULONG</td>
+                <td>MEM_COMMIT, MEM_RESERVE, or both</td>
+              </tr>
+              <tr>
+                <td>Protect</td>
+                <td>ULONG</td>
+                <td>Page protection (PAGE_READWRITE, PAGE_EXECUTE, etc.)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Example: Allocating Executable Memory</h3>
+        <div class="code-block-wrapper">
+          <div class="code-block-header">
+            <span class="code-block-language">c</span>
+            <button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code class="language-c">typedef NTSTATUS (NTAPI *NtAllocateVirtualMemory_t)(
+  HANDLE, PVOID*, ULONG_PTR, PSIZE_T, ULONG, ULONG
+);
+
+PVOID AllocateExecutableMemory(SIZE_T size) {
+  HMODULE hNtdll = GetModuleHandleA("ntdll.dll");
+  NtAllocateVirtualMemory_t NtAllocateVirtualMemory =
+    (NtAllocateVirtualMemory_t)GetProcAddress(hNtdll,
+      "NtAllocateVirtualMemory");
+  
+  PVOID baseAddress = NULL;
+  SIZE_T regionSize = size;
+  
+  NTSTATUS status = NtAllocateVirtualMemory(
+    GetCurrentProcess(),
+    &baseAddress,
+    0,
+    &regionSize,
+    MEM_COMMIT | MEM_RESERVE,
+    PAGE_EXECUTE_READWRITE
+  );
+  
+  if (!NT_SUCCESS(status)) {
+    return NULL;
+  }
+  
+  return baseAddress;
+}</code></pre>
+        </div>
+
+        <div class="callout callout-tip">
+          <div class="callout-header">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>Tip</span>
+          </div>
+          <p>VirtualAlloc in kernel32.dll is a wrapper around NtAllocateVirtualMemory. For most applications, use VirtualAlloc instead of calling the Native API directly.</p>
+        </div>
+      </section>
+
+      <section id="related" class="related-section">
+        <h3>Related Components</h3>
+        <ul>
+          <li>
+            <a href="kernel32.html">
+              <i class="fa-solid fa-chevron-right"></i>
+              <span>kernel32.dll - Win32 API Base Library</span>
+            </a>
+          </li>
+          <li>
+            <a href="../subsystems/executive.html">
+              <i class="fa-solid fa-chevron-right"></i>
+              <span>Executive Subsystem</span>
+            </a>
+          </li>
+          <li>
+            <a href="../functions/memory-management.html">
+              <i class="fa-solid fa-chevron-right"></i>
+              <span>Memory Management Functions</span>
+            </a>
+          </li>
+          <li>
+            <a href="../functions/file-io.html">
+              <i class="fa-solid fa-chevron-right"></i>
+              <span>File I/O Functions</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank">
+        <img src="https://img.shields.io/github/stars/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Stars">
+      </a>
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank">
+        <img src="https://img.shields.io/github/forks/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Forks">
+      </a>
+      <img src="https://img.shields.io/github/last-commit/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="Last Commit">
+      <img src="https://img.shields.io/github/license/JoeyKoch1/WhatIsWindows?style=flat-square" alt="License">
+    </footer>
+  </div>
+
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search documentation...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/asm.min.js"></script>
+  <script src="../js/syntax-highlight.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
+</body>
+</html>

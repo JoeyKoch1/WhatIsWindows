@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registry Structure - WhatIsWindows</title>
+  <meta name="description" content="Windows Registry structure and organization">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/navigation.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">`n  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <button class="mobile-menu-toggle"><i class="fa-solid fa-bars"></i></button>
+      <a href="../index.html" class="logo"><i class="fa-brands fa-windows"></i><span>WhatIsWindows</span></a>
+      <div class="search-trigger"><i class="fa-solid fa-magnifying-glass"></i><span>Search...</span><kbd>Ctrl+K</kbd></div>
+      <nav class="header-nav"><a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank"><i class="fa-brands fa-github"></i></a></nav>
+    </header>
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Architecture</span></div><ul class="nav-list"><li class="nav-item"><a href="../architecture/overview.html">Overview</a></li><li class="nav-item"><a href="../architecture/memory-model.html">Memory Model</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>DLLs</span></div><ul class="nav-list"><li class="nav-item"><a href="../dlls/ntdll.html">ntdll.dll</a></li><li class="nav-item"><a href="../dlls/kernel32.html">kernel32.dll</a></li><li class="nav-item"><a href="../dlls/user32.html">user32.dll</a></li><li class="nav-item"><a href="../dlls/advapi32.html">advapi32.dll</a></li><li class="nav-item"><a href="../dlls/gdi32.html">gdi32.dll</a></li><li class="nav-item"><a href="../dlls/msvcrt.html">msvcrt.dll</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Functions</span></div><ul class="nav-list"><li class="nav-item"><a href="../functions/memory-management.html">Memory Management</a></li><li class="nav-item"><a href="../functions/process-threads.html">Process & Threads</a></li><li class="nav-item"><a href="../functions/file-io.html">File I/O</a></li><li class="nav-item"><a href="../functions/registry-api.html">Registry API</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Subsystems</span></div><ul class="nav-list"><li class="nav-item"><a href="../subsystems/executive.html">Executive</a></li><li class="nav-item"><a href="../subsystems/kernel.html">Kernel</a></li><li class="nav-item"><a href="../subsystems/hal.html">HAL</a></li><li class="nav-item"><a href="../subsystems/win32k.html">win32k.sys</a></li><li class="nav-item"><a href="../subsystems/lsa.html">LSA</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Drivers</span></div><ul class="nav-list"><li class="nav-item"><a href="../drivers/overview.html">Overview</a></li><li class="nav-item"><a href="../drivers/wdm.html">WDM</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-down"></i><span>Registry</span></div><ul class="nav-list"><li class="nav-item"><a href="structure.html">Structure</a></li><li class="nav-item"><a href="hives.html">Hives</a></li></ul></div>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumbs"><a href="../index.html">Home</a><i class="fa-solid fa-chevron-right"></i><a href="index.html">Registry</a><i class="fa-solid fa-chevron-right"></i><span>Structure</span></nav>
+      <div class="section-header"><h1>Windows Registry Structure</h1><p class="section-subtitle">Hierarchical configuration database organization</p></div>
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>The Windows Registry is a hierarchical database storing configuration data:</p>
+        <ul>
+          <li>Keys - Container objects (like folders)</li>
+          <li>Values - Named data entries (like files)</li>
+          <li>Hives - Top-level registry sections</li>
+        </ul>
+      </section>
+      <section id="root-keys">
+        <h2>Root Keys (Hives)</h2>
+        <ul>
+          <li>HKEY_LOCAL_MACHINE (HKLM) - System-wide configuration</li>
+          <li>HKEY_CURRENT_USER (HKCU) - Current user settings</li>
+          <li>HKEY_CLASSES_ROOT (HKCR) - File associations and COM</li>
+          <li>HKEY_USERS (HKU) - All user profiles</li>
+          <li>HKEY_CURRENT_CONFIG (HKCC) - Hardware profile</li>
+        </ul>
+      </section>
+      <section id="related" class="related-section"><h3>Related Components</h3><ul><li><a href="hives.html"><i class="fa-solid fa-chevron-right"></i><span>Registry Hives</span></a></li><li><a href="../functions/registry-api.html"><i class="fa-solid fa-chevron-right"></i><span>Registry API</span></a></li></ul></section>
+    </main>
+    <footer class="site-footer">
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank"><img src="https://img.shields.io/github/stars/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="Stars"></a>
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank"><img src="https://img.shields.io/github/forks/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="Forks"></a>
+      <img src="https://img.shields.io/github/last-commit/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="Last Commit">
+      <img src="https://img.shields.io/github/license/JoeyKoch1/WhatIsWindows?style=flat-square" alt="License">
+    </footer>
+  </div>
+  <div class="search-modal" id="searchModal"><div class="search-container"><div class="search-input-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" class="search-input" id="searchInput" placeholder="Search..."></div><div class="search-results" id="searchResults"></div></div></div>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
+</body>
+</html>

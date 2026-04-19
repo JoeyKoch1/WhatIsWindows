@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Model - WhatIsWindows</title>
+  <meta name="description" content="Windows virtual memory model, page tables, and address space layout">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/navigation.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">`n  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <button class="mobile-menu-toggle" aria-label="Toggle navigation"><i class="fa-solid fa-bars"></i></button>
+      <a href="../index.html" class="logo"><i class="fa-brands fa-windows"></i><span>WhatIsWindows</span></a>
+      <div class="search-trigger"><i class="fa-solid fa-magnifying-glass"></i><span>Search documentation...</span><kbd>Ctrl+K</kbd></div>
+      <nav class="header-nav"><a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank"><i class="fa-brands fa-github"></i></a></nav>
+    </header>
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-down"></i><span>Architecture</span></div><ul class="nav-list"><li class="nav-item"><a href="overview.html" class="nav-link">Overview</a></li><li class="nav-item"><a href="memory-model.html" class="nav-link">Memory Model</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>DLLs</span></div><ul class="nav-list"><li class="nav-item"><a href="../dlls/ntdll.html" class="nav-link">ntdll.dll</a></li><li class="nav-item"><a href="../dlls/kernel32.html" class="nav-link">kernel32.dll</a></li><li class="nav-item"><a href="../dlls/user32.html" class="nav-link">user32.dll</a></li><li class="nav-item"><a href="../dlls/advapi32.html" class="nav-link">advapi32.dll</a></li><li class="nav-item"><a href="../dlls/gdi32.html" class="nav-link">gdi32.dll</a></li><li class="nav-item"><a href="../dlls/msvcrt.html" class="nav-link">msvcrt.dll</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Functions</span></div><ul class="nav-list"><li class="nav-item"><a href="../functions/memory-management.html" class="nav-link">Memory Management</a></li><li class="nav-item"><a href="../functions/process-threads.html" class="nav-link">Process & Threads</a></li><li class="nav-item"><a href="../functions/file-io.html" class="nav-link">File I/O</a></li><li class="nav-item"><a href="../functions/registry-api.html" class="nav-link">Registry API</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Subsystems</span></div><ul class="nav-list"><li class="nav-item"><a href="../subsystems/executive.html" class="nav-link">Executive</a></li><li class="nav-item"><a href="../subsystems/kernel.html" class="nav-link">Kernel</a></li><li class="nav-item"><a href="../subsystems/hal.html" class="nav-link">HAL</a></li><li class="nav-item"><a href="../subsystems/win32k.html" class="nav-link">win32k.sys</a></li><li class="nav-item"><a href="../subsystems/lsa.html" class="nav-link">LSA</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Drivers</span></div><ul class="nav-list"><li class="nav-item"><a href="../drivers/overview.html" class="nav-link">Overview</a></li><li class="nav-item"><a href="../drivers/wdm.html" class="nav-link">WDM</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Registry</span></div><ul class="nav-list"><li class="nav-item"><a href="../registry/structure.html" class="nav-link">Structure</a></li><li class="nav-item"><a href="../registry/hives.html" class="nav-link">Hives</a></li></ul></div>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumbs"><a href="../index.html">Home</a><i class="fa-solid fa-chevron-right"></i><a href="index.html">Architecture</a><i class="fa-solid fa-chevron-right"></i><span>Memory Model</span></nav>
+      <div class="section-header"><h1>Windows Memory Model</h1><p class="section-subtitle">Virtual memory management, page tables, and address space layout</p></div>
+      <nav class="table-of-contents"><h3>Contents</h3><ul><li><a href="#overview">Overview</a></li><li><a href="#address-space">Address Space</a></li><li><a href="#page-tables">Page Tables</a></li><li><a href="#vad-tree">VAD Tree</a></li><li><a href="#related">Related Components</a></li></ul></nav>
+      <section id="overview">
+        <h2 class="section-heading">Overview <a href="#overview" class="heading-permalink" aria-label="Permalink"><i class="fa-solid fa-link"></i></a></h2>
+        <p>Windows uses a flat virtual memory model where each process has its own virtual address space. The Memory Manager translates virtual addresses to physical addresses using page tables managed by the hardware MMU (Memory Management Unit).</p>
+        
+        <div class="callout callout-info">
+          <i class="fa-solid fa-circle-info"></i>
+          <div>
+            <strong>Fun Fact:</strong> Windows 95/98 used a shared 4GB address space where all processes could see each other's memory! Modern Windows gives each process its own isolated 256 TB address space on x64.
+          </div>
+        </div>
+      </section>
+      <section id="address-space">
+        <h2 class="section-heading">Address Space Layout <a href="#address-space" class="heading-permalink" aria-label="Permalink"><i class="fa-solid fa-link"></i></a> <span class="version-badge">x64</span></h2>
+        <p>On x64 Windows, each process has a 256 TB virtual address space split between user and kernel mode:</p>
+        <ul>
+          <li><strong>User Mode:</strong> 0x00000000`00000000 to 0x00007FFF`FFFFFFFF (128 TB)</li>
+          <li><strong>Kernel Mode:</strong> 0xFFFF8000`00000000 to 0xFFFFFFFF`FFFFFFFF (128 TB)</li>
+        </ul>
+        
+        <h3>Memory States</h3>
+        <table>
+          <thead><tr><th>State</th><th>Description</th><th>Physical Memory</th></tr></thead>
+          <tbody>
+            <tr><td>Free</td><td>Available for allocation</td><td>Not allocated</td></tr>
+            <tr><td>Reserved</td><td>Address range reserved but not committed</td><td>Not allocated</td></tr>
+            <tr><td>Committed</td><td>Backed by physical memory or pagefile</td><td>Allocated on demand</td></tr>
+          </tbody>
+        </table>
+        
+        <div class="callout callout-warning">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <div>
+            <strong>Note:</strong> Committing memory doesn't immediately allocate physical RAM. Windows uses demand paging - physical pages are only allocated when actually accessed (page fault).
+          </div>
+        </div>
+      </section>
+      <section id="page-tables">
+        <h2 class="section-heading">Page Tables <a href="#page-tables" class="heading-permalink" aria-label="Permalink"><i class="fa-solid fa-link"></i></a></h2>
+        <p>x64 uses 4-level page translation to convert virtual addresses to physical addresses:</p>
+        <table>
+          <thead><tr><th>Level</th><th>Name</th><th>Bits</th><th>Entries</th></tr></thead>
+          <tbody>
+            <tr><td>PML4</td><td>Page Map Level 4</td><td>Bits 39-47</td><td>512 entries</td></tr>
+            <tr><td>PDP</td><td>Page Directory Pointer</td><td>Bits 30-38</td><td>512 entries</td></tr>
+            <tr><td>PD</td><td>Page Directory</td><td>Bits 21-29</td><td>512 entries</td></tr>
+            <tr><td>PT</td><td>Page Table</td><td>Bits 12-20</td><td>512 entries</td></tr>
+          </tbody>
+        </table>
+        
+        <div class="code-block-wrapper">
+          <div class="code-block-header">
+            <span class="code-block-language">text</span>
+            <button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code class="language-text">Virtual Address Format (x64):
++--------+--------+--------+--------+---------+
+|  PML4  |  PDP   |   PD   |   PT   | Offset  |
+| 9 bits | 9 bits | 9 bits | 9 bits | 12 bits |
++--------+--------+--------+--------+---------+
+  47-39    38-30    29-21    20-12     11-0
+
+Total: 48 bits addressed (256 TB)
+Each level: 512 entries * 8 bytes = 4KB per table</code></pre>
+        </div>
+        
+        <p><strong>Translation Example:</strong> When accessing virtual address <code>0x00007FFF`12345678</code>:</p>
+        <ol>
+          <li>CPU reads CR3 register to find PML4 base address</li>
+          <li>Uses bits 39-47 to index into PML4 → gets PDP address</li>
+          <li>Uses bits 30-38 to index into PDP → gets PD address</li>
+          <li>Uses bits 21-29 to index into PD → gets PT address</li>
+          <li>Uses bits 12-20 to index into PT → gets physical page frame</li>
+          <li>Adds offset (bits 0-11) to get final physical address</li>
+        </ol>
+      </section>
+      <section id="vad-tree">
+        <h2 class="section-heading">VAD Tree <a href="#vad-tree" class="heading-permalink" aria-label="Permalink"><i class="fa-solid fa-link"></i></a></h2>
+        <p>The Virtual Address Descriptor (VAD) tree tracks all memory allocations in each process. It's implemented as a balanced binary tree (AVL tree) stored in the EPROCESS structure.</p>
+        
+        <h3>VAD Entry Information</h3>
+        <ul>
+          <li>Starting and ending virtual addresses</li>
+          <li>Memory protection (PAGE_READWRITE, PAGE_EXECUTE, etc.)</li>
+          <li>Memory type (private, mapped, image)</li>
+          <li>Commit charge</li>
+          <li>Associated file mapping (if any)</li>
+        </ul>
+        
+        <div class="callout callout-info">
+          <i class="fa-solid fa-microscope"></i>
+          <div>
+            <strong>Kernel Debugging Tip:</strong> Use <code>!vad</code> command in WinDbg to dump the VAD tree for any process. This shows all memory regions and their attributes.
+          </div>
+        </div>
+      </section>
+      <section id="related" class="related-section"><h3>Related Components</h3><ul><li><a href="overview.html"><i class="fa-solid fa-chevron-right"></i><span>Architecture Overview</span></a></li><li><a href="../functions/memory-management.html"><i class="fa-solid fa-chevron-right"></i><span>Memory Management Functions</span></a></li><li><a href="../dlls/ntdll.html"><i class="fa-solid fa-chevron-right"></i><span>ntdll.dll</span></a></li></ul></section>
+    </main>
+    <footer class="site-footer">
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank"><img src="https://img.shields.io/github/stars/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Stars"></a>
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank"><img src="https://img.shields.io/github/forks/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Forks"></a>
+      <img src="https://img.shields.io/github/last-commit/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="Last Commit">
+      <img src="https://img.shields.io/github/license/JoeyKoch1/WhatIsWindows?style=flat-square" alt="License">
+    </footer>
+  </div>
+  <div class="search-modal" id="searchModal"><div class="search-container"><div class="search-input-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" class="search-input" id="searchInput" placeholder="Search documentation..."></div><div class="search-results" id="searchResults"></div></div></div>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
+</body>
+</html>

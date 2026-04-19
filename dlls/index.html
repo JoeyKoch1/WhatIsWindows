@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DLLs - WhatIsWindows</title>
+  <meta name="description" content="Windows system DLLs documentation - ntdll, kernel32, user32, and more">
+  
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/navigation.css">
+  <link rel="stylesheet" href="../css/components.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      
+      <a href="../index.html" class="logo">
+        <i class="fa-brands fa-windows"></i>
+        <span>WhatIsWindows</span>
+      </a>
+      
+      <div class="search-trigger">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search documentation...</span>
+        <kbd>Ctrl+K</kbd>
+      </div>
+      
+      <nav class="header-nav">
+        <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank" aria-label="GitHub Repository">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </nav>
+    </header>
+
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Architecture</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../architecture/overview.html" class="nav-link">Overview</a>
+            </li>
+            <li class="nav-item">
+              <a href="../architecture/memory-model.html" class="nav-link">Memory Model</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-down"></i>
+            <span>DLLs</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="ntdll.html" class="nav-link">ntdll.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="kernel32.html" class="nav-link">kernel32.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="user32.html" class="nav-link">user32.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="advapi32.html" class="nav-link">advapi32.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="gdi32.html" class="nav-link">gdi32.dll</a>
+            </li>
+            <li class="nav-item">
+              <a href="msvcrt.html" class="nav-link">msvcrt.dll</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Functions</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../functions/memory-management.html" class="nav-link">Memory Management</a>
+            </li>
+            <li class="nav-item">
+              <a href="../functions/process-threads.html" class="nav-link">Process & Threads</a>
+            </li>
+            <li class="nav-item">
+              <a href="../functions/file-io.html" class="nav-link">File I/O</a>
+            </li>
+            <li class="nav-item">
+              <a href="../functions/registry-api.html" class="nav-link">Registry API</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Subsystems</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../subsystems/executive.html" class="nav-link">Executive</a>
+            </li>
+            <li class="nav-item">
+              <a href="../subsystems/kernel.html" class="nav-link">Kernel</a>
+            </li>
+            <li class="nav-item">
+              <a href="../subsystems/hal.html" class="nav-link">HAL</a>
+            </li>
+            <li class="nav-item">
+              <a href="../subsystems/win32k.html" class="nav-link">win32k.sys</a>
+            </li>
+            <li class="nav-item">
+              <a href="../subsystems/lsa.html" class="nav-link">LSA</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Drivers</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../drivers/overview.html" class="nav-link">Overview</a>
+            </li>
+            <li class="nav-item">
+              <a href="../drivers/wdm.html" class="nav-link">WDM</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Registry</span>
+          </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="../registry/structure.html" class="nav-link">Structure</a>
+            </li>
+            <li class="nav-item">
+              <a href="../registry/hives.html" class="nav-link">Hives</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <nav class="breadcrumbs">
+        <a href="../index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>DLLs</span>
+      </nav>
+
+      <div class="section-header">
+        <h1>System DLLs</h1>
+        <p class="section-subtitle">Core Windows Dynamic Link Libraries and their exported functions</p>
+      </div>
+
+      <p>Windows system DLLs form the foundation of the Windows API. Each DLL provides a specific set of functionality, from low-level kernel access to high-level user interface components.</p>
+
+      <ul class="page-list">
+        <li class="page-list-item">
+          <h3><a href="ntdll.html">ntdll.dll</a></h3>
+          <span class="badge badge-accent">Native API</span>
+          <p>The NT Layer DLL - lowest-level user-mode interface to the Windows NT kernel. Exports Native API functions (Nt*), runtime library functions (Rtl*), and loader functions (Ldr*). Every Windows process loads ntdll.dll automatically.</p>
+        </li>
+
+        <li class="page-list-item">
+          <h3><a href="kernel32.html">kernel32.dll</a></h3>
+          <span class="badge badge-accent">Win32 API</span>
+          <p>Base Windows API library providing process and thread management, memory management, file I/O, and error handling. Most kernel32 functions are wrappers around ntdll.dll Native API calls.</p>
+        </li>
+
+        <li class="page-list-item">
+          <h3><a href="user32.html">user32.dll</a></h3>
+          <span class="badge badge-accent">User Interface</span>
+          <p>Windows user interface library. Manages window creation, message loops, input handling, menus, dialogs, and controls. Interfaces with win32k.sys in kernel mode for GUI operations.</p>
+        </li>
+
+        <li class="page-list-item">
+          <h3><a href="advapi32.html">advapi32.dll</a></h3>
+          <span class="badge badge-accent">Advanced API</span>
+          <p>Advanced Windows API for registry access, security functions, service control manager, event logging, and cryptographic operations. Provides access control and authentication functionality.</p>
+        </li>
+
+        <li class="page-list-item">
+          <h3><a href="gdi32.html">gdi32.dll</a></h3>
+          <span class="badge badge-accent">Graphics</span>
+          <p>Graphics Device Interface library for 2D graphics, font rendering, drawing operations, and device contexts. Handles GDI objects like pens, brushes, fonts, and bitmaps.</p>
+        </li>
+
+        <li class="page-list-item">
+          <h3><a href="msvcrt.html">msvcrt.dll</a></h3>
+          <span class="badge badge-accent">C Runtime</span>
+          <p>Microsoft Visual C Runtime library. Implements standard C library functions including string manipulation, memory operations, mathematical functions, and I/O streams.</p>
+        </li>
+      </ul>
+    </main>
+
+    <footer class="site-footer">
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank">
+        <img src="https://img.shields.io/github/stars/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Stars">
+      </a>
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank">
+        <img src="https://img.shields.io/github/forks/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Forks">
+      </a>
+      <img src="https://img.shields.io/github/last-commit/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="Last Commit">
+      <img src="https://img.shields.io/github/license/JoeyKoch1/WhatIsWindows?style=flat-square" alt="License">
+    </footer>
+  </div>
+
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search documentation...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>user32.dll - WhatIsWindows</title>
+  <meta name="description" content="Technical documentation for user32.dll - Windows User Interface Library">
+  
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/navigation.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">`n  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <button class="mobile-menu-toggle" aria-label="Toggle navigation"><i class="fa-solid fa-bars"></i></button>
+      <a href="../index.html" class="logo"><i class="fa-brands fa-windows"></i><span>WhatIsWindows</span></a>
+      <div class="search-trigger"><i class="fa-solid fa-magnifying-glass"></i><span>Search documentation...</span><kbd>Ctrl+K</kbd></div>
+      <nav class="header-nav"><a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank"><i class="fa-brands fa-github"></i></a></nav>
+    </header>
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Architecture</span></div><ul class="nav-list"><li class="nav-item"><a href="../architecture/overview.html" class="nav-link">Overview</a></li><li class="nav-item"><a href="../architecture/memory-model.html" class="nav-link">Memory Model</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-down"></i><span>DLLs</span></div><ul class="nav-list"><li class="nav-item"><a href="ntdll.html" class="nav-link">ntdll.dll</a></li><li class="nav-item"><a href="kernel32.html" class="nav-link">kernel32.dll</a></li><li class="nav-item"><a href="user32.html" class="nav-link">user32.dll</a></li><li class="nav-item"><a href="advapi32.html" class="nav-link">advapi32.dll</a></li><li class="nav-item"><a href="gdi32.html" class="nav-link">gdi32.dll</a></li><li class="nav-item"><a href="msvcrt.html" class="nav-link">msvcrt.dll</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Functions</span></div><ul class="nav-list"><li class="nav-item"><a href="../functions/memory-management.html" class="nav-link">Memory Management</a></li><li class="nav-item"><a href="../functions/process-threads.html" class="nav-link">Process & Threads</a></li><li class="nav-item"><a href="../functions/file-io.html" class="nav-link">File I/O</a></li><li class="nav-item"><a href="../functions/registry-api.html" class="nav-link">Registry API</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Subsystems</span></div><ul class="nav-list"><li class="nav-item"><a href="../subsystems/executive.html" class="nav-link">Executive</a></li><li class="nav-item"><a href="../subsystems/kernel.html" class="nav-link">Kernel</a></li><li class="nav-item"><a href="../subsystems/hal.html" class="nav-link">HAL</a></li><li class="nav-item"><a href="../subsystems/win32k.html" class="nav-link">win32k.sys</a></li><li class="nav-item"><a href="../subsystems/lsa.html" class="nav-link">LSA</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Drivers</span></div><ul class="nav-list"><li class="nav-item"><a href="../drivers/overview.html" class="nav-link">Overview</a></li><li class="nav-item"><a href="../drivers/wdm.html" class="nav-link">WDM</a></li></ul></div>
+        <div class="nav-section"><div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Registry</span></div><ul class="nav-list"><li class="nav-item"><a href="../registry/structure.html" class="nav-link">Structure</a></li><li class="nav-item"><a href="../registry/hives.html" class="nav-link">Hives</a></li></ul></div>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <nav class="breadcrumbs"><a href="../index.html">Home</a><i class="fa-solid fa-chevron-right"></i><a href="index.html">DLLs</a><i class="fa-solid fa-chevron-right"></i><span>user32.dll</span></nav>
+      <div class="section-header"><h1>user32.dll</h1><p class="section-subtitle">Windows User Interface Library - Window Management and Input Handling</p></div>
+      <nav class="table-of-contents"><h3>Contents</h3><ul><li><a href="#overview">Overview</a></li><li><a href="#window-procedure">Window Procedure</a></li><li><a href="#message-loop">Message Loop</a></li><li><a href="#createwindow">CreateWindow</a></li><li><a href="#related">Related Components</a></li></ul></nav>
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>user32.dll is the core Windows user interface library. It provides functions for creating and managing windows, processing input from keyboard and mouse, managing menus, dialogs, and controls, and handling clipboard operations.</p>
+        <p>All GUI operations in user32.dll ultimately make system calls to win32k.sys in kernel mode, which performs the actual window management and graphics operations with proper security validation.</p>
+        <div class="callout"><div class="callout-header"><i class="fa-solid fa-circle-info"></i><span>Security Note</span></div><p>Starting with Windows 8, Microsoft implemented syscall filtering in win32k.sys to reduce the attack surface. Many user32 functions were restricted from being called by non-UI processes.</p></div>
+      </section>
+      <section id="window-procedure">
+        <h2>Window Procedure</h2>
+        <p>Every window in Windows has an associated window procedure (WndProc) that processes messages sent to the window. The message-driven architecture is fundamental to Windows GUI programming.</p>
+        <div class="code-block-wrapper"><div class="code-block-header"><span class="code-block-language">c</span><button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button></div><pre><code class="language-c">LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+  switch (uMsg) {
+    case WM_PAINT: {
+      PAINTSTRUCT ps;
+      HDC hdc = BeginPaint(hwnd, &ps);
+      TextOut(hdc, 50, 50, L"Hello Windows", 13);
+      EndPaint(hwnd, &ps);
+      break;
+    }
+    case WM_DESTROY:
+      PostQuitMessage(0);
+      break;
+    default:
+      return DefWindowProc(hwnd, uMsg, wParam, lParam);
+  }
+  return 0;
+}</code></pre></div>
+      </section>
+      <section id="message-loop">
+        <h2>Message Loop</h2>
+        <p>Every GUI thread must implement a message loop to retrieve and dispatch messages from the thread's message queue.</p>
+        <div class="code-block-wrapper"><div class="code-block-header"><span class="code-block-language">c</span><button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button></div><pre><code class="language-c">MSG msg;
+while (GetMessage(&msg, NULL, 0, 0) > 0) {
+  TranslateMessage(&msg);
+  DispatchMessage(&msg);
+}</code></pre></div>
+      </section>
+      <section id="createwindow">
+        <h2>CreateWindow</h2>
+        <p>CreateWindow creates an overlapped, pop-up, or child window. It specifies the window class, title, style, position, size, and parent window.</p>
+        <div class="function-doc">
+          <h3>Function Signature</h3>
+          <div class="function-signature"><pre><code class="language-c">HWND CreateWindowA(
+  LPCSTR   lpClassName,
+  LPCSTR   lpWindowName,
+  DWORD    dwStyle,
+  int      X,
+  int      Y,
+  int      nWidth,
+  int      nHeight,
+  HWND     hWndParent,
+  HMENU    hMenu,
+  HINSTANCE hInstance,
+  LPVOID   lpParam
+);</code></pre></div>
+        </div>
+        <h3>Example: Creating a Main Window</h3>
+        <div class="code-block-wrapper"><div class="code-block-header"><span class="code-block-language">c</span><button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button></div><pre><code class="language-c">WNDCLASS wc = {0};
+wc.lpfnWndProc = WndProc;
+wc.hInstance = hInstance;
+wc.lpszClassName = L"MyWindowClass";
+RegisterClass(&wc);
+
+HWND hwnd = CreateWindow(
+  L"MyWindowClass",
+  L"My Application",
+  WS_OVERLAPPEDWINDOW,
+  CW_USEDEFAULT, CW_USEDEFAULT,
+  800, 600,
+  NULL, NULL, hInstance, NULL
+);
+
+ShowWindow(hwnd, nCmdShow);
+UpdateWindow(hwnd);</code></pre></div>
+      </section>
+      <section id="related" class="related-section"><h3>Related Components</h3><ul><li><a href="gdi32.html"><i class="fa-solid fa-chevron-right"></i><span>gdi32.dll - Graphics Library</span></a></li><li><a href="../subsystems/win32k.html"><i class="fa-solid fa-chevron-right"></i><span>win32k.sys - Kernel UI</span></a></li></ul></section>
+    </main>
+    <footer class="site-footer">
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank"><img src="https://img.shields.io/github/stars/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Stars"></a>
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank"><img src="https://img.shields.io/github/forks/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Forks"></a>
+      <img src="https://img.shields.io/github/last-commit/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="Last Commit">
+      <img src="https://img.shields.io/github/license/JoeyKoch1/WhatIsWindows?style=flat-square" alt="License">
+    </footer>
+  </div>
+  <div class="search-modal" id="searchModal"><div class="search-container"><div class="search-input-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" class="search-input" id="searchInput" placeholder="Search documentation..."></div><div class="search-results" id="searchResults"></div></div></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
+  <script src="../js/syntax-highlight.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
+</body>
+</html>

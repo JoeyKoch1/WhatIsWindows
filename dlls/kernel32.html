@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kernel32.dll - WhatIsWindows</title>
+  <meta name="description" content="Technical documentation for kernel32.dll - The base Win32 API library">
+  
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/navigation.css">
+  <link rel="stylesheet" href="../css/components.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">`n  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <a href="../index.html" class="logo">
+        <i class="fa-brands fa-windows"></i>
+        <span>WhatIsWindows</span>
+      </a>
+      <div class="search-trigger">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search documentation...</span>
+        <kbd>Ctrl+K</kbd>
+      </div>
+      <nav class="header-nav">
+        <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank" aria-label="GitHub Repository">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </nav>
+    </header>
+
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Architecture</span></div>
+          <ul class="nav-list">
+            <li class="nav-item"><a href="../architecture/overview.html" class="nav-link">Overview</a></li>
+            <li class="nav-item"><a href="../architecture/memory-model.html" class="nav-link">Memory Model</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title"><i class="fa-solid fa-chevron-down"></i><span>DLLs</span></div>
+          <ul class="nav-list">
+            <li class="nav-item"><a href="ntdll.html" class="nav-link">ntdll.dll</a></li>
+            <li class="nav-item"><a href="kernel32.html" class="nav-link">kernel32.dll</a></li>
+            <li class="nav-item"><a href="user32.html" class="nav-link">user32.dll</a></li>
+            <li class="nav-item"><a href="advapi32.html" class="nav-link">advapi32.dll</a></li>
+            <li class="nav-item"><a href="gdi32.html" class="nav-link">gdi32.dll</a></li>
+            <li class="nav-item"><a href="msvcrt.html" class="nav-link">msvcrt.dll</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Functions</span></div>
+          <ul class="nav-list">
+            <li class="nav-item"><a href="../functions/memory-management.html" class="nav-link">Memory Management</a></li>
+            <li class="nav-item"><a href="../functions/process-threads.html" class="nav-link">Process & Threads</a></li>
+            <li class="nav-item"><a href="../functions/file-io.html" class="nav-link">File I/O</a></li>
+            <li class="nav-item"><a href="../functions/registry-api.html" class="nav-link">Registry API</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Subsystems</span></div>
+          <ul class="nav-list">
+            <li class="nav-item"><a href="../subsystems/executive.html" class="nav-link">Executive</a></li>
+            <li class="nav-item"><a href="../subsystems/kernel.html" class="nav-link">Kernel</a></li>
+            <li class="nav-item"><a href="../subsystems/hal.html" class="nav-link">HAL</a></li>
+            <li class="nav-item"><a href="../subsystems/win32k.html" class="nav-link">win32k.sys</a></li>
+            <li class="nav-item"><a href="../subsystems/lsa.html" class="nav-link">LSA</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Drivers</span></div>
+          <ul class="nav-list">
+            <li class="nav-item"><a href="../drivers/overview.html" class="nav-link">Overview</a></li>
+            <li class="nav-item"><a href="../drivers/wdm.html" class="nav-link">WDM</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title"><i class="fa-solid fa-chevron-right"></i><span>Registry</span></div>
+          <ul class="nav-list">
+            <li class="nav-item"><a href="../registry/structure.html" class="nav-link">Structure</a></li>
+            <li class="nav-item"><a href="../registry/hives.html" class="nav-link">Hives</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <nav class="breadcrumbs">
+        <a href="../index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="index.html">DLLs</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>kernel32.dll</span>
+      </nav>
+
+      <div class="section-header">
+        <h1>kernel32.dll</h1>
+        <p class="section-subtitle">Base Win32 API Library - Process, Memory, and I/O Management</p>
+      </div>
+
+      <nav class="table-of-contents">
+        <h3>Contents</h3>
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#key-functions">Key Functions</a></li>
+          <li><a href="#virtualalloc">VirtualAlloc</a></li>
+          <li><a href="#createprocess">CreateProcess</a></li>
+          <li><a href="#related">Related Components</a></li>
+        </ul>
+      </nav>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>kernel32.dll is the primary Win32 API library that provides the foundation for Windows application development. It exports functions for memory management, process and thread creation, file I/O, synchronization, and error handling. Almost every Windows application links against kernel32.dll.</p>
+        
+        <p>Most kernel32.dll functions are wrapper functions that call down to the Native API exported by ntdll.dll. This abstraction layer provides a stable, documented API while allowing Microsoft to change the underlying Native API between Windows versions.</p>
+
+        <div class="callout">
+          <div class="callout-header">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Architecture Note</span>
+          </div>
+          <p>On Windows NT systems, kernel32.dll is a thin wrapper around ntdll.dll. On Windows 9x systems, kernel32.dll contained the actual implementation. Modern Windows maintains this abstraction for backward compatibility.</p>
+        </div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture</h2>
+        <p>kernel32.dll sits between user applications and the Native API. When you call a kernel32 function, it typically performs parameter validation, translates Win32 types to Native API types, and invokes the corresponding Nt* function.</p>
+
+        <h3>Function Categories</h3>
+        <ul>
+          <li>Memory Management - VirtualAlloc, HeapCreate, GlobalAlloc</li>
+          <li>Process Management - CreateProcess, OpenProcess, ExitProcess</li>
+          <li>Thread Management - CreateThread, SuspendThread, ExitThread</li>
+          <li>File I/O - CreateFile, ReadFile, WriteFile, SetFilePointer</li>
+          <li>Synchronization - CreateMutex, CreateEvent, WaitForSingleObject</li>
+          <li>Error Handling - GetLastError, SetLastError, FormatMessage</li>
+          <li>Module Loading - LoadLibrary, GetProcAddress, FreeLibrary</li>
+        </ul>
+      </section>
+
+      <section id="virtualalloc">
+        <h2>VirtualAlloc</h2>
+        <p>VirtualAlloc reserves or commits a region of pages in the virtual address space of the calling process. It is the primary memory allocation function for low-level memory management.</p>
+
+        <div class="function-doc">
+          <h3>Function Signature</h3>
+          <div class="function-signature">
+            <pre><code class="language-c">LPVOID VirtualAlloc(
+  LPVOID lpAddress,
+  SIZE_T dwSize,
+  DWORD  flAllocationType,
+  DWORD  flProtect
+);</code></pre>
+          </div>
+
+          <h3>Parameters</h3>
+          <table class="param-table">
+            <thead>
+              <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>lpAddress</td><td>LPVOID</td><td>Desired starting address (NULL for system-selected)</td></tr>
+              <tr><td>dwSize</td><td>SIZE_T</td><td>Size of region in bytes (rounded to page boundary)</td></tr>
+              <tr><td>flAllocationType</td><td>DWORD</td><td>MEM_COMMIT, MEM_RESERVE, or MEM_RESET</td></tr>
+              <tr><td>flProtect</td><td>DWORD</td><td>PAGE_READWRITE, PAGE_EXECUTE, PAGE_NOACCESS, etc.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Example: Allocating and Freeing Memory</h3>
+        <div class="code-block-wrapper">
+          <div class="code-block-header">
+            <span class="code-block-language">c</span>
+            <button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code class="language-c">#include <windows.h>
+#include <stdio.h>
+
+int main() {
+  SIZE_T size = 4096;
+  
+  LPVOID pMem = VirtualAlloc(
+    NULL,
+    size,
+    MEM_COMMIT | MEM_RESERVE,
+    PAGE_READWRITE
+  );
+  
+  if (pMem == NULL) {
+    printf("Allocation failed: %lu\n", GetLastError());
+    return 1;
+  }
+  
+  memset(pMem, 0, size);
+  printf("Allocated %zu bytes at %p\n", size, pMem);
+  
+  VirtualFree(pMem, 0, MEM_RELEASE);
+  printf("Memory freed\n");
+  
+  return 0;
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="createprocess">
+        <h2>CreateProcess</h2>
+        <p>CreateProcess creates a new process and its primary thread. The new process runs in the security context of the calling process.</p>
+
+        <div class="function-doc">
+          <h3>Function Signature</h3>
+          <div class="function-signature">
+            <pre><code class="language-c">BOOL CreateProcessA(
+  LPCSTR                lpApplicationName,
+  LPSTR                 lpCommandLine,
+  LPSECURITY_ATTRIBUTES lpProcessAttributes,
+  LPSECURITY_ATTRIBUTES lpThreadAttributes,
+  BOOL                  bInheritHandles,
+  DWORD                 dwCreationFlags,
+  LPVOID                lpEnvironment,
+  LPCSTR                lpCurrentDirectory,
+  LPSTARTUPINFOA        lpStartupInfo,
+  LPPROCESS_INFORMATION lpProcessInformation
+);</code></pre>
+          </div>
+        </div>
+
+        <h3>Example: Launching a Process</h3>
+        <div class="code-block-wrapper">
+          <div class="code-block-header">
+            <span class="code-block-language">c</span>
+            <button class="code-block-copy"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code class="language-c">#include <windows.h>
+#include <stdio.h>
+
+int main() {
+  STARTUPINFO si;
+  PROCESS_INFORMATION pi;
+  
+  ZeroMemory(&si, sizeof(si));
+  si.cb = sizeof(si);
+  ZeroMemory(&pi, sizeof(pi));
+  
+  if (!CreateProcess(
+    NULL,
+    "C:\\Windows\\System32\\notepad.exe",
+    NULL,
+    NULL,
+    FALSE,
+    0,
+    NULL,
+    NULL,
+    &si,
+    &pi
+  )) {
+    printf("CreateProcess failed: %lu\n", GetLastError());
+    return 1;
+  }
+  
+  printf("Process ID: %lu\n", pi.dwProcessId);
+  printf("Thread ID: %lu\n", pi.dwThreadId);
+  
+  WaitForSingleObject(pi.hProcess, INFINITE);
+  
+  CloseHandle(pi.hProcess);
+  CloseHandle(pi.hThread);
+  
+  return 0;
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="related" class="related-section">
+        <h3>Related Components</h3>
+        <ul>
+          <li><a href="ntdll.html"><i class="fa-solid fa-chevron-right"></i><span>ntdll.dll - Native API</span></a></li>
+          <li><a href="../functions/memory-management.html"><i class="fa-solid fa-chevron-right"></i><span>Memory Management Functions</span></a></li>
+          <li><a href="../functions/process-threads.html"><i class="fa-solid fa-chevron-right"></i><span>Process & Threads</span></a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank">
+        <img src="https://img.shields.io/github/stars/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Stars">
+      </a>
+      <a href="https://github.com/JoeyKoch1/WhatIsWindows" target="_blank">
+        <img src="https://img.shields.io/github/forks/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="GitHub Forks">
+      </a>
+      <img src="https://img.shields.io/github/last-commit/JoeyKoch1/WhatIsWindows?style=flat-square&logo=github" alt="Last Commit">
+      <img src="https://img.shields.io/github/license/JoeyKoch1/WhatIsWindows?style=flat-square" alt="License">
+    </footer>
+  </div>
+
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search documentation...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
+  <script src="../js/syntax-highlight.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
+</body>
+</html>
